@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <title>Guardino Voice</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<h2>🎙️ Guardino – Voice MVP</h2>
+
+<button id="start">شروع صحبت</button>
+<p id="log">آماده…</p>
+
+<script>
+const log = (text) => {
+  document.getElementById("log").innerText = text;
+};
+
+const SpeechRecognition =
+  window.SpeechRecognition || window.webkitSpeechRecognition;
+
+if (!SpeechRecognition) {
+  log("❌ مرورگر شما از Voice پشتیبانی نمی‌کند");
+} else {
+  const recognition = new SpeechRecognition();
+  recognition.lang = "fa-IR";
+  recognition.continuous = true;
+
+  document.getElementById("start").onclick = () => {
+    recognition.start();
+    log("🎧 در حال گوش دادن...");
+  };
+
+  recognition.onresult = (event) => {
+    const last = event.results.length - 1;
+    const text = event.results[last][0].transcript;
+
+    log("🎤 تو گفتی: " + text);
+
+    let response = "متوجه نشدم";
+
+    if (text.includes("سلام")) response = "سلام مستر پریوار";
+    if (text.includes("پول")) response = "پول ابزار آزادی است";
+    if (text.includes("گارڈینو") || text.includes("گاردینو"))
+      response = "من گاردینو هستم";
+
+    const speak = new SpeechSynthesisUtterance(response);
+    speak.lang = "fa-IR";
+    speechSynthesis.speak(speak);
+  };
+}
+</script>
+
+</body>
+</html>
