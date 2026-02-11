@@ -1,84 +1,32 @@
 <!DOCTYPE html>
 <html lang="fa">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Guardino Voice MVP</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      background: #0f172a;
-      color: #e5e7eb;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-    .box {
-      width: 100%;
-      max-width: 420px;
-      background: #020617;
-      padding: 20px;
-      border-radius: 16px;
-      box-shadow: 0 0 30px rgba(0,0,0,0.6);
-    }
-    h1 { text-align: center; }
-    textarea {
-      width: 100%;
-      height: 100px;
-      border-radius: 10px;
-      padding: 10px;
-      font-size: 16px;
-    }
-    button {
-      width: 100%;
-      margin-top: 12px;
-      padding: 12px;
-      font-size: 16px;
-      border: none;
-      border-radius: 10px;
-      background: #22c55e;
-      color: #020617;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .log {
-      margin-top: 10px;
-      font-size: 14px;
-      text-align: center;
-      opacity: 0.8;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guardino</title>
 </head>
-<body>
-  <div class="box">
-    <h1>Guardino</h1>
-    <textarea id="input" placeholder="پیامت را بنویس..."></textarea>
-    <button id="speak">پاسخ صوتی</button>
-    <div class="log" id="log">آماده پاسخ‌گویی</div>
-  </div>
+<body style="background:black;color:white;text-align:center;padding-top:40vh">
+
+  <h2>Guardino Voice Test</h2>
+
+  <button id="playBtn" style="font-size:20px;padding:10px 20px">
+    ▶️ پخش صدا
+  </button>
+
+  <audio id="audio">
+    <source src="guardino.mp3" type="audio/mpeg">
+  </audio>
 
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const btn = document.getElementById("speak");
-      const input = document.getElementById("input");
-      const log = document.getElementById("log");
-
-      btn.addEventListener("click", () => {
-        const text = input.value.trim() || "سلام مستر پریوار، من Guardino هستم.";
-        log.textContent = "در حال صحبت...";
-
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = "fa-IR";
-
-        utterance.onend = () => {
-          log.textContent = "پاسخ داده شد ✅";
-        };
-
-        speechSynthesis.cancel();
-        speechSynthesis.speak(utterance);
+    document.getElementById("playBtn").addEventListener("click", () => {
+      const audio = document.getElementById("audio");
+      audio.currentTime = 0;
+      audio.play().catch(err => {
+        alert("سیستم اجازه پخش صدا نداد");
+        console.error(err);
       });
     });
   </script>
+
 </body>
 </html>
