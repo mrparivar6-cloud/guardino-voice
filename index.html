@@ -1,56 +1,53 @@
 <!DOCTYPE html>
 <html lang="fa">
 <head>
-  <meta charset="UTF-8">
-  <title>Guardino Voice</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guardino v0.1</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #0f172a;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    textarea {
+      width: 100%;
+      height: 120px;
+      font-size: 16px;
+      margin-top: 15px;
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+  </style>
 </head>
 <body>
 
-<h2>🎙️ Guardino – Voice MVP</h2>
+  <h2>Guardino Voice v0.1</h2>
+  <p>متن را بنویس، گاردینو با صدا جواب می‌دهد</p>
 
-<button id="start">شروع صحبت</button>
-<p id="log">آماده…</p>
+  <textarea id="input" placeholder="مثلاً بنویس: سلام"></textarea>
+  <br />
+  <button onclick="run()">ارسال</button>
 
-<script>
-const log = (text) => {
-  document.getElementById("log").innerText = text;
-};
+  <script>
+    function run() {
+      const text = document.getElementById("input").value.trim();
+      let response = "ادامه بده مستر پریوار";
 
-const SpeechRecognition =
-  window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (text.includes("سلام")) response = "سلام مستر پریوار";
+      if (text.includes("پول")) response = "پول جریان است، نه هدف";
+      if (text.includes("گاردینو")) response = "من اینجام";
 
-if (!SpeechRecognition) {
-  log("❌ مرورگر شما از Voice پشتیبانی نمی‌کند");
-} else {
-  const recognition = new SpeechRecognition();
-  recognition.lang = "fa-IR";
-  recognition.continuous = false;
-
-  document.getElementById("start").onclick = () => {
-    recognition.start();
-    log("🎧 در حال گوش دادن...");
-  };
-
-  recognition.onresult = (event) => {
-    const last = event.results.length - 1;
-    const text = event.results[last][0].transcript;
-
-    log("🎤 تو گفتی: " + text);
-
-    let response = "متوجه نشدم";
-
-    if (text.includes("سلام")) response = "سلام مستر پریوار";
-    if (text.includes("پول")) response = "پول ابزار آزادی است";
-    if (text.includes("گارڈینو") || text.includes("گاردینو"))
-      response = "من گاردینو هستم";
-
-    const speak = new SpeechSynthesisUtterance(response);
-    speak.lang = "fa-IR";
-    speechSynthesis.speak(speak);
-  };
-}
-</script>
+      const u = new SpeechSynthesisUtterance(response);
+      u.lang = "fa-IR";
+      speechSynthesis.speak(u);
+    }
+  </script>
 
 </body>
 </html>
